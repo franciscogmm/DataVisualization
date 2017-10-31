@@ -106,6 +106,20 @@ class Viz():
         figsize = (size,size)
         self.df.hist(figsize = figsize, bins = bins)
         
+    def hist_one(self, column, size = 10, bins = 25):
+        '''params.
+                        column: column to use
+                        size  : toggle size of figure; Default = 10
+                        bins  : number of bins to use; Default = 25'''
+        arr = self.df[str(column)].copy()
+        arr = np.array(arr)
+        figsize = (size,size)
+        fig = plt.figure(figsize = figsize)
+        ax = fig.add_subplot(111)
+        ax.hist(arr, bins = bins)
+        plt.xlabel(column, fontsize = size * 20/15)
+        plt.show()
+        
     def barplot(self, x, y, color_column = None):
         '''params.
                         x           : x-axis variable
@@ -138,5 +152,3 @@ class Viz():
         ax = fig.add_subplot(1,1,1)
         ax.scatter(x = self.df[str(x)], y = self.df[str(y)], s = self.df[str(size_column)], color = colors)
         plt.show()  
-	        
-	    
