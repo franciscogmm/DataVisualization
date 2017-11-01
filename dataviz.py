@@ -10,6 +10,23 @@ warnings.filterwarnings("ignore")
 pd.options.display.mpl_style = 'default'
 sns.set(style="white", color_codes=True)
 
+def help():
+    print '''class: Viz(df)
+                self.df
+                functions:
+                    .scatterplot(x,y,size,mode)
+                    .jointplot(x,y,size,kind)
+                    .facetgrid(x,y,color_column,size,legend)
+                    .pairplot(columns,color_column,size,diag_kind,kind)
+                    .boxplot(x,y,size,orient)
+                    .boxplot_all(orient,size)
+                    .histogram(size,bins,grid)
+                    .hist_one(column,size,bins)
+                    .barplot(x,y,color_column)
+                    .countplot(column,orient)
+                    .bubble(x,y,size_column)
+            '''
+
 class Viz():
     '''
     based on pandas and seaborn: http://seaborn.pydata.org/tutorial/categorical.html
@@ -77,17 +94,16 @@ class Viz():
                         diag_kind   : hist, kde; Default = hist
                         kind        : scatter, reg; Default = scatter'''
         if color_column == None:
-            sns.pairplot(data.ix[:,columns], size = size, diag_kind = diag_kind, kind = kind)
+            sns.pairplot(self.df.ix[:,columns], size = size, diag_kind = diag_kind, kind = kind)
         else:    
-            sns.pairplot(data.ix[:,columns], hue = color_column, size = size, diag_kind = diag_kind, kind = kind)
+            sns.pairplot(self.df.ix[:,columns], hue = color_column, size = size, diag_kind = diag_kind, kind = kind)
         
     def boxplot(self, x, y, size = 8, orient = 'h'):
         ''' params. 
                         x           : x-axis variable
                         y           : y-axis variable
-                        color_column: column used to define colors; Default = None
                         size        : toggle size of figure; Default = 8
-                        legend      : True or False only; Default = True'''
+                        orient      : horizontal = h, vertical = v'''
         ratio = 6.0/8
         sns.boxplot(x = x, y = y, data = self.df, orient = orient).figure.set_size_inches(size, size * ratio)   
         
@@ -105,7 +121,7 @@ class Viz():
                         grid: show grid; Default = False'''
         figsize = (size,size)
         self.df.hist(figsize = figsize, bins = bins)
-        
+    
     def hist_one(self, column, size = 10, bins = 25):
         '''params.
                         column: column to use
@@ -119,7 +135,7 @@ class Viz():
         ax.hist(arr, bins = bins)
         plt.xlabel(column, fontsize = size * 20/15)
         plt.show()
-        
+
     def barplot(self, x, y, color_column = None):
         '''params.
                         x           : x-axis variable
@@ -152,3 +168,4 @@ class Viz():
         ax = fig.add_subplot(1,1,1)
         ax.scatter(x = self.df[str(x)], y = self.df[str(y)], s = self.df[str(size_column)], color = colors)
         plt.show()  
+	    
